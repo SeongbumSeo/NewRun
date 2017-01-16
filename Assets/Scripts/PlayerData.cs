@@ -9,7 +9,7 @@ public class PlayerData {
 	[Serializable]
 	public class PLAYER {
 		public int Level = 0;
-		public float[] Position = { 0f };
+		public Vector3 Position = new Vector3();
 
 		public string Location = string.Empty;
 		public string CreatedTime = string.Empty;
@@ -25,6 +25,13 @@ public class PlayerData {
 	}
 	public static OPTION Option = new OPTION();
 
+    [Serializable]
+    public class ENEMY {
+        public int Type;    // 0: Cholesterol, 1: Nematode
+        public Vector3 Scale = new Vector3();
+    }
+    public static ENEMY[] Enemy = { new ENEMY() };
+
 	public static bool flagLoadPlayerData = true;
 
 	public static void DeletePlayerData() {
@@ -39,8 +46,6 @@ public class PlayerData {
 		bf.Serialize(ms, Player);
 		// 문자열로 변환하여 저장
 		PlayerPrefs.SetString("PlayerData", Convert.ToBase64String(ms.GetBuffer()));
-
-		//GameObject.Find("SaveMessage UI").transform.localScale = new Vector3(1f, 1f, 1f);
 	}
 
 	public static PLAYER ReadPlayerData() {
@@ -74,7 +79,7 @@ public class PlayerData {
 			Player = Player_Default;
 		} else {
 			// 데이터 적용
-			GameObject.Find("Character").transform.position = new Vector3(Player.Position[0], Player.Position[1], Player.Position[2]);
+			GameObject.Find("Character").transform.position = Player.Position;
 		}
 	}
 

@@ -116,11 +116,7 @@ public class Character : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = new Vector3(characterSpeedX, characterSpeedY, 0f);
 
         // 캐릭터 좌표 데이터 갱신
-        PlayerData.Player.Position = new float[3] {
-			charspr.transform.position.x,
-			charspr.transform.position.y,
-			charspr.transform.position.z
-		};
+        PlayerData.Player.Position = charspr.transform.position;
 
 		/* 화면 이동 */
 		// 위치 정보 갱신
@@ -164,7 +160,7 @@ public class Character : MonoBehaviour {
 		else
 			campos_moved.y = backgroundPosY + backgroundHeight/2f - cameraHeight/2f;
 		// 화면 좌표를 캐릭터 좌표와 동기화
-		Camera.main.transform.position = new Vector3(campos_moved.x, campos_moved.y, campos_moved.z);
+		Camera.main.transform.position = campos_moved;
 	}
 
 	void SetMoveAnimation(int direction) {
