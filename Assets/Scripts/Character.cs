@@ -10,6 +10,8 @@ public class Character : MonoBehaviour {
 	public Sprite[] rightSprites;   // 우향 이동 스프라이트
 	public bool canmove = true;     // 캐릭터 이동 가능 여부
 
+    float characterSpeedX = 0f;     // 캐릭터의 이동 속도 X
+    float characterSpeedY = 0f;     // 캐릭터의 이동 속도 Y
 	float backgroundPosX;           // 배경의 X좌표
 	float backgroundPosY;           // 배경의 Y좌표
 	float backgroundWidth;          // 배경의 두께
@@ -45,46 +47,67 @@ public class Character : MonoBehaviour {
 		SpriteRenderer charspr = GetComponent<SpriteRenderer>();
 
 		/* 캐릭터 이동 */
-		float speedX = 0f, speedY = 0f;
 		int direction = 1;
 
 		// 상향 이동
 		if(Input.GetKey(KeyCode.UpArrow)) {
 			ismoving = true;
-			speedY += moveSpeed;
+            if(characterSpeedY < moveSpeed)
+                characterSpeedY += moveSpeed / 50f;
+            else
+                characterSpeedY = moveSpeed;
 			direction = 0;
 		}
 		// 하향 이동
 		if(Input.GetKey(KeyCode.DownArrow)) {
 			ismoving = true;
-			speedY -= moveSpeed;
+            if(characterSpeedY > -moveSpeed)
+                characterSpeedY -= moveSpeed / 50f;
+            else
+                characterSpeedY = -moveSpeed;
 			direction = 1;
 		}
 		// 좌향 이동
 		if(Input.GetKey(KeyCode.LeftArrow)) {
 			ismoving = true;
-			speedX -= moveSpeed;
+            if(characterSpeedX > -moveSpeed)
+                characterSpeedX -= moveSpeed / 50f;
+            else
+                characterSpeedX = -moveSpeed;
 			direction = 2;
 		}
 		// 우향 이동
 		if(Input.GetKey(KeyCode.RightArrow)) {
 			ismoving = true;
-			speedX += moveSpeed;
-			direction = 3;
+            if(characterSpeedX < moveSpeed)
+                characterSpeedX += moveSpeed / 50f;
+            else
+                characterSpeedX = moveSpeed;
+            direction = 3;
 		}
 
 		// 이동중인 경우
 		if(ismoving) {
 			// 정지 해제
 			GetComponent<Rigidbody2D>().isKinematic = false;
-			// 속도 처리
-			GetComponent<Rigidbody2D>().velocity = new Vector3(speedX, speedY, 0f);
 			// 이동 애니메이션 적용
 			SetMoveAnimation(direction);
 		} else {
-            // 정지
-            GetComponent<Rigidbody2D>().isKinematic = true;
-            GetComponent<Rigidbody2D>().velocity = new Vector3(0f, 0f, 0f);
+            // X감속
+            //GetComponent<Rigidbody2D>().isKinematic = true;
+            if(characterSpeedX > moveSpeed / 100f)
+                characterSpeedX -= moveSpeed / 100f;
+            else if(characterSpeedX < -moveSpeed / 100f)
+                characterSpeedX += moveSpeed / 100f;
+            else
+                characterSpeedX = 0f;
+            // Y감속
+            if(characterSpeedY > moveSpeed / 100f)
+                characterSpeedY -= moveSpeed / 100f;
+            else if(characterSpeedY < -moveSpeed / 100f)
+                characterSpeedY += moveSpeed / 100f;
+            else
+                characterSpeedY = 0f;
             // 스프라이트 초기화
             Sprite sprite = charspr.sprite;
 			switch(animDirection) {
@@ -110,10 +133,12 @@ public class Character : MonoBehaviour {
 				break;
 			}
 			charspr.sprite = sprite;
-		}
+        }
+        // 속도 처리
+        GetComponent<Rigidbody2D>().velocity = new Vector3(characterSpeedX, characterSpeedY, 0f);
 
-		// 캐릭터 좌표 데이터 갱신
-		PlayerData.Player.Position = new float[3] {
+        // 캐릭터 좌표 데이터 갱신
+        PlayerData.Player.Position = new float[3] {
 			charspr.transform.position.x,
 			charspr.transform.position.y,
 			charspr.transform.position.z
