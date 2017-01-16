@@ -48,41 +48,30 @@ public class Character : MonoBehaviour {
 
 		/* 캐릭터 이동 */
 		int direction = 1;
+        float deltaSpeed = Time.deltaTime * moveSpeed / 10f;
 
-		// 상향 이동
-		if(Input.GetKey(KeyCode.UpArrow)) {
+        // 상향 이동
+        if(Input.GetKey(KeyCode.UpArrow)) {
 			ismoving = true;
-            if(characterSpeedY < moveSpeed)
-                characterSpeedY += moveSpeed / 50f;
-            else
-                characterSpeedY = moveSpeed;
-			direction = 0;
+            characterSpeedY = Mathf.Lerp(characterSpeedY, moveSpeed, deltaSpeed);
+            direction = 0;
 		}
 		// 하향 이동
 		if(Input.GetKey(KeyCode.DownArrow)) {
 			ismoving = true;
-            if(characterSpeedY > -moveSpeed)
-                characterSpeedY -= moveSpeed / 50f;
-            else
-                characterSpeedY = -moveSpeed;
+            characterSpeedY = Mathf.Lerp(characterSpeedY, -moveSpeed, deltaSpeed);
 			direction = 1;
 		}
 		// 좌향 이동
 		if(Input.GetKey(KeyCode.LeftArrow)) {
 			ismoving = true;
-            if(characterSpeedX > -moveSpeed)
-                characterSpeedX -= moveSpeed / 50f;
-            else
-                characterSpeedX = -moveSpeed;
-			direction = 2;
+            characterSpeedX = Mathf.Lerp(characterSpeedX, -moveSpeed, deltaSpeed);
+            direction = 2;
 		}
 		// 우향 이동
 		if(Input.GetKey(KeyCode.RightArrow)) {
 			ismoving = true;
-            if(characterSpeedX < moveSpeed)
-                characterSpeedX += moveSpeed / 50f;
-            else
-                characterSpeedX = moveSpeed;
+            characterSpeedX = Mathf.Lerp(characterSpeedX, moveSpeed, deltaSpeed);
             direction = 3;
 		}
 
@@ -95,19 +84,8 @@ public class Character : MonoBehaviour {
 		} else {
             // X감속
             //GetComponent<Rigidbody2D>().isKinematic = true;
-            if(characterSpeedX > moveSpeed / 100f)
-                characterSpeedX -= moveSpeed / 100f;
-            else if(characterSpeedX < -moveSpeed / 100f)
-                characterSpeedX += moveSpeed / 100f;
-            else
-                characterSpeedX = 0f;
-            // Y감속
-            if(characterSpeedY > moveSpeed / 100f)
-                characterSpeedY -= moveSpeed / 100f;
-            else if(characterSpeedY < -moveSpeed / 100f)
-                characterSpeedY += moveSpeed / 100f;
-            else
-                characterSpeedY = 0f;
+            characterSpeedX = Mathf.Lerp(characterSpeedX, 0f, deltaSpeed);
+            characterSpeedY = Mathf.Lerp(characterSpeedY, 0f, deltaSpeed);
             // 스프라이트 초기화
             Sprite sprite = charspr.sprite;
 			switch(animDirection) {
