@@ -100,6 +100,7 @@ public class PlayerData {
 		} else {
 			for(int i = 1; i < Vessel.Enemy.Length; i++) {
 				Transform enemy = GameObject.Find(i.ToString()).transform;
+				enemy.GetComponent<Enemy>().initialHealth = Vessel.Enemy[i].initialHealth;
 				enemy.GetComponent<Enemy>().Health = Vessel.Enemy[i].Health;
 				enemy.position = new Vector3(Vessel.Enemy[i].Position[0], Vessel.Enemy[i].Position[1], Vessel.Enemy[i].Position[2]);
 				enemy.localScale = new Vector3(Vessel.Enemy[i].Scale[0], Vessel.Enemy[i].Scale[1], Vessel.Enemy[i].Scale[2]);

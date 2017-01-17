@@ -27,7 +27,7 @@ public class Stomach : MonoBehaviour {
 		GameObject.Find("NumFoods").GetComponent<TextMesh>().text = innerFoods.ToString();
 
 		/* 받은 음식 수가 30개 이상일 경우 종료 */
-		if(innerFoods >= 1) {
+		if(innerFoods >= 30) {
 			SceneManager.LoadScene("Scenes/Vessel");
 		}
 	}

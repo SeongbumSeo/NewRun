@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Character : MonoBehaviour {
 	public float moveSpeed = 10f;   // 이동 속도
+	public float moveSlip = 10f;	// 미끄러짐 정도
 	public int animSpeed = 3;       // 애니메이션 재생 속도
 	public Sprite[] upSprites;      // 상향 이동 스프라이트
 	public Sprite[] downSprites;    // 하향 이동 스프라이트
@@ -49,7 +50,7 @@ public class Character : MonoBehaviour {
 
 		/* 캐릭터 이동 */
 		int direction = 1;
-        float deltaSpeed = Time.deltaTime * moveSpeed / 10f;
+        float deltaSpeed = Time.deltaTime * moveSpeed / moveSlip;
 
         // 상향 이동
         if(Input.GetKey(KeyCode.UpArrow)) {

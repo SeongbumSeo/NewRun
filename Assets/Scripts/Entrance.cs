@@ -19,8 +19,8 @@ public class Entrance : MonoBehaviour {
 				Collided = false;
 
 				PlayerData.SavePlayerData();
-				SceneManager.LoadScene("Scenes/Stomach");
-				SceneManager.SetActiveScene(SceneManager.GetSceneByName("Stomach"));
+				SceneManager.LoadScene("Scenes/" + name);
+				SceneManager.SetActiveScene(SceneManager.GetSceneByName(name));
 			} else {
 				blackScreen.color = new Color(1f, 1f, 1f, alpha);
 			}
