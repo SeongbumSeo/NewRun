@@ -62,7 +62,7 @@ public class Nematode : MonoBehaviour {
 
         } else if(Random.Range(0, GameObject.Find("EventSystem").GetComponent<Vessel>().enemyAppearProbability) == 0) {
 			// 체력 설정
-			GetComponent<Enemy>().Health = GameObject.Find("EventSystem").GetComponent<Vessel>().nematodeInitialHealth;
+			GetComponent<Enemy>().initialHealth = GetComponent<Enemy>().Health = GameObject.Find("EventSystem").GetComponent<Vessel>().nematodeInitialHealth;
 			// 초기 좌표로 이동
 			transform.position = initialPosition;
 			moveIndex = 0;
