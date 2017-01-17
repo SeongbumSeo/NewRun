@@ -82,7 +82,11 @@ public class Nematode : MonoBehaviour {
 
 	void Flip() {
 		PolygonCollider2D col = GetComponent<PolygonCollider2D>();
+		Vector2[] points = col.points;
 		
 		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
+		for(int i = 0; i < points.Length; i++)
+			points[i].Set(points[i].x, -points[i].y);
+		col.points = points;
 	}
 }
