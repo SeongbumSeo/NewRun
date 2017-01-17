@@ -18,6 +18,8 @@ public class Nematode : MonoBehaviour {
 		initialPosition = transform.position;
 		// 생성 타이머
         Invoke("Create", 30f);
+		// 플립 타이머
+		InvokeRepeating("Flip", .1f, Random.Range(.05f, .1f));
     }
 
     void Update() {
@@ -34,20 +36,25 @@ public class Nematode : MonoBehaviour {
 				Debug.Log("GameOver");
 			}
 		} else {
+			float differX = Mathf.Abs(destination.x - current.x);
+			float differY = Mathf.Abs(destination.y - current.y);
+			float ratioX = differX < differY ? differX / differY : 1f;
+			float ratioY = differY < differX ? differY / differX : 1f;
+
 			if(destination.x == 256f) {             // X좌표로 이동하지 않는 경우
 
 			} else if(destination.x > current.x) {  // 목적지가 오른쪽인 경우
-				speed.x = moveSpeed;
+				speed.x = moveSpeed * ratioX;
 			} else if(destination.x < current.x) {  // 목적지가 왼쪽인 경우
-				speed.x = -moveSpeed;
+				speed.x = -moveSpeed * ratioX;
 			}
 
 			if(destination.y == 256f) {             // Y좌표로 이동하지 않는 경우
 
 			} else if(destination.y > current.y) {  // 목적지가 윗쪽인 경우
-				speed.y = moveSpeed;
+				speed.y = moveSpeed * ratioY;
 			} else if(destination.y < current.y) {  // 목적지가 아랫쪽인 경우
-				speed.y = -moveSpeed;
+				speed.y = -moveSpeed * ratioY;
 			}
 
 			// 정지 해제
@@ -72,4 +79,10 @@ public class Nematode : MonoBehaviour {
             Invoke("Create", 30f);
         }
     }
+
+	void Flip() {
+		PolygonCollider2D col = GetComponent<PolygonCollider2D>();
+		
+		GetComponent<SpriteRenderer>().flipY = !GetComponent<SpriteRenderer>().flipY;
+	}
 }
