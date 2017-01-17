@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Character : MonoBehaviour {
@@ -117,12 +118,14 @@ public class Character : MonoBehaviour {
         // 속도 처리
         GetComponent<Rigidbody2D>().velocity = new Vector3(characterSpeedX, characterSpeedY, 0f);
 
-        // 캐릭터 좌표 데이터 갱신
-        PlayerData.Player.Position = new float[3] {
-			charspr.transform.position.x,
-			charspr.transform.position.y,
-			charspr.transform.position.z
-		};
+		// 캐릭터 좌표 데이터 갱신
+		if(string.Compare(SceneManager.GetActiveScene().name, "Vessel") == 0) {
+			PlayerData.Player.Position = new float[3] {
+				charspr.transform.position.x,
+				charspr.transform.position.y,
+				charspr.transform.position.z
+			};
+		}
 
 		/* 화면 이동 */
 		// 위치 정보 갱신
