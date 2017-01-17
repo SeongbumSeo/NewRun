@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class PlayerData {
+	//public static Vessel VesselData = new Vessel();
+
 	[Serializable]
 	public class PLAYER {
 		public int Level = 0;
