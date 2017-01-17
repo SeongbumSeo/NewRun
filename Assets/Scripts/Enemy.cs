@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+	public float Health = 100f;
+
+	bool Damaging = false;
+
 	void Start() {
-        Create();
+
 	}
 	
 	void Update() {
-
+		if(Damaging) {
+			Health -= Time.deltaTime * GameObject.Find("Character").GetComponent<Character>().Power;
+			if(Health < 0) {
+				Damaging = false;
+				transform.localScale = new Vector3();
+			}
+		}
 	}
 
-    void Create() {
-        if(transform.localScale != new Vector3()) {
+	void OnTriggerEnter2D(Collider2D collision) {
+		Damaging = string.Compare(collision.gameObject.name, "Character") == 0;
+	}
 
-        } else if(Random.Range(0, GameObject.Find("EventSystem").GetComponent<Vessel>().enemyAppearProbability) == 0) {
-            Debug.Log("Enemy Created");
-            transform.localScale = new Vector3(.25f, .25f, 1f);
-        } else {
-            Invoke("Create", 5f);
-        }
-    }
+	void OnTriggerExit2D(Collider2D collision) {
+		Damaging &= string.Compare(collision.gameObject.name, "Character") != 0;
+	}
 }

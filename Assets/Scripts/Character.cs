@@ -2,13 +2,14 @@
 using System.Collections;
 
 public class Character : MonoBehaviour {
-	public float moveSpeed = 3f;    // 이동 속도
+	public float moveSpeed = 10f;   // 이동 속도
 	public int animSpeed = 3;       // 애니메이션 재생 속도
 	public Sprite[] upSprites;      // 상향 이동 스프라이트
 	public Sprite[] downSprites;    // 하향 이동 스프라이트
 	public Sprite[] leftSprites;    // 좌향 이동 스프라이트
 	public Sprite[] rightSprites;   // 우향 이동 스프라이트
 	public bool canmove = true;     // 캐릭터 이동 가능 여부
+	public float Power;				// 캐릭터 공격력
 
     float characterSpeedX = 0f;     // 캐릭터의 이동 속도 X
     float characterSpeedY = 0f;     // 캐릭터의 이동 속도 Y
