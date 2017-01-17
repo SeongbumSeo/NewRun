@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,12 +7,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class PlayerData {
-	//public static Vessel VesselData = new Vessel();
-
+	/* PLAYER */
 	[Serializable]
 	public class PLAYER {
 		public int Level = 0;
-		public Vector3 Position = new Vector3();
+		public float[] Position = new float[3];
 
 		public string Location = string.Empty;
 		public string CreatedTime = string.Empty;
@@ -20,6 +20,7 @@ public class PlayerData {
 	public static PLAYER Player_Default = new PLAYER();
 	public static PLAYER Player = new PLAYER();
 
+	/* OPTION */
 	[Serializable]
 	public class OPTION {
 		public float volumeEffects = .5f;
@@ -27,36 +28,48 @@ public class PlayerData {
 	}
 	public static OPTION Option = new OPTION();
 
-    [Serializable]
-    public class ENEMY {
-        public int Type;    // 0: Cholesterol, 1: Nematode
-        public Vector3 Scale = new Vector3();
-    }
-    public static ENEMY[] Enemy = { new ENEMY() };
+	/* VESSEL */
+	[Serializable]
+	public class ENEMY {
+		public float initialHealth = 100f;
+		public float Health = 0f;
+		public float[] Position = new float[3];
+		public float[] Scale = new float[3];
+	}
 
-	public static bool flagLoadPlayerData = true;
+	[Serializable]
+	public class VESSEL {
+		public ENEMY[] Enemy = new ENEMY[37];
+	}
+    public static VESSEL Vessel = new VESSEL();
+
+	public static bool flagLoadPlayerData = false;
 
 	public static void DeletePlayerData() {
 		PlayerPrefs.DeleteKey("PlayerData");
 	}
 
-	public static void SavePlayerData(bool showmsg=true) {
+	public static void SavePlayerData() {
 		BinaryFormatter bf = new BinaryFormatter();
 		MemoryStream ms = new MemoryStream();
 
-		// 데이터를 Byte 배열 형태로 변환
 		bf.Serialize(ms, Player);
-		// 문자열로 변환하여 저장
 		PlayerPrefs.SetString("PlayerData", Convert.ToBase64String(ms.GetBuffer()));
+
+		bf = new BinaryFormatter();
+		ms = new MemoryStream();
+		bf.Serialize(ms, Vessel);
+		PlayerPrefs.SetString("VesselData", Convert.ToBase64String(ms.GetBuffer()));
+
+		flagLoadPlayerData = true;
 	}
 
-	public static PLAYER ReadPlayerData() {
+	public static object ReadPlayerData(string type) {
 		string data;
-		PLAYER temp;
 
 		try {
 			// 문자열 데이터 불러옴
-			data = PlayerPrefs.GetString("PlayerData");
+			data = PlayerPrefs.GetString(type);
 
 			// 빈 데이터가 아닌 경우
 			if(!string.IsNullOrEmpty(data)) {
@@ -65,9 +78,7 @@ public class PlayerData {
 
 				// 문자열 데이터를 Byte 배열 형태로 변환
 				ms = new MemoryStream(Convert.FromBase64String(data));
-				temp = (PLAYER)bf.Deserialize(ms);
-
-				return temp;
+				return bf.Deserialize(ms);
 			}
 		} catch { }
 
@@ -76,12 +87,23 @@ public class PlayerData {
 
 	public static void LoadPlayerData() {
 		// 불러오기에 실패한 경우
-		if((Player = ReadPlayerData()) == null) {
+		if((Player = (PLAYER)ReadPlayerData("PlayerData")) == null) {
 			// 데이터를 기본 값으로 설정
 			Player = Player_Default;
 		} else {
 			// 데이터 적용
-			GameObject.Find("Character").transform.position = Player.Position;
+			GameObject.Find("Character").transform.position = new Vector3(Player.Position[0], Player.Position[1], Player.Position[2]);
+		}
+
+		if((Vessel = (VESSEL)ReadPlayerData("VesselData")) == null) {
+			Vessel = null;
+		} else {
+			for(int i = 1; i < Vessel.Enemy.Length; i++) {
+				Transform enemy = GameObject.Find(i.ToString()).transform;
+				enemy.GetComponent<Enemy>().Health = Vessel.Enemy[i].Health;
+				enemy.position = new Vector3(Vessel.Enemy[i].Position[0], Vessel.Enemy[i].Position[1], Vessel.Enemy[i].Position[2]);
+				enemy.localScale = new Vector3(Vessel.Enemy[i].Scale[0], Vessel.Enemy[i].Scale[1], Vessel.Enemy[i].Scale[2]);
+			}
 		}
 	}
 

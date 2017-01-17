@@ -117,7 +117,11 @@ public class Character : MonoBehaviour {
         GetComponent<Rigidbody2D>().velocity = new Vector3(characterSpeedX, characterSpeedY, 0f);
 
         // 캐릭터 좌표 데이터 갱신
-        PlayerData.Player.Position = charspr.transform.position;
+        PlayerData.Player.Position = new float[3] {
+			charspr.transform.position.x,
+			charspr.transform.position.y,
+			charspr.transform.position.z
+		};
 
 		/* 화면 이동 */
 		// 위치 정보 갱신

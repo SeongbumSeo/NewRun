@@ -11,7 +11,14 @@ public class Vessel : MonoBehaviour {
 	public bool Paused = false;
 
 	void Start() {
+		for(int i = 0; i < 37; i++)
+			PlayerData.Vessel.Enemy[i] = new PlayerData.ENEMY();
 
+		if(PlayerData.flagLoadPlayerData) {
+			PlayerData.LoadPlayerData();
+			Vector3 pos = GameObject.Find("Character").transform.position;
+			GameObject.Find("Character").transform.position = new Vector3(pos.x, pos.y + 7f, pos.z);
+		}
 	}
 
 	void Update() {

@@ -27,7 +27,7 @@ public class Stomach : MonoBehaviour {
 		GameObject.Find("NumFoods").GetComponent<TextMesh>().text = innerFoods.ToString();
 
 		/* 받은 음식 수가 30개 이상일 경우 종료 */
-		if(innerFoods >= 30) {
+		if(innerFoods >= 1) {
 			SceneManager.LoadScene("Scenes/Vessel");
 		}
 	}
@@ -49,6 +49,8 @@ public class Stomach : MonoBehaviour {
 		food.name = type;
 		// Z값 설정
 		food.transform.position = new Vector3(food.transform.position.x, food.transform.position.y, -11);
+		// 스케일 설정
+		food.transform.localScale = new Vector3(.1f, .1f, 1f);
 		// Food 컴포넌트 추가
 		food.AddComponent<Food>();
 		// Collider 컴포넌트 추가

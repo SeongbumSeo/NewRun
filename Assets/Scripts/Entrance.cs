@@ -18,8 +18,7 @@ public class Entrance : MonoBehaviour {
 			if(alpha > 1f) {
 				Collided = false;
 
-				scene.Pause();
-
+				PlayerData.SavePlayerData();
 				SceneManager.LoadScene("Scenes/Stomach");
 				SceneManager.SetActiveScene(SceneManager.GetSceneByName("Stomach"));
 			} else {
