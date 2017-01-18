@@ -48,7 +48,7 @@ public class Stomach : MonoBehaviour {
 		// 이름 설정
 		food.name = type;
 		// Z값 설정
-		food.transform.position = new Vector3(food.transform.position.x, food.transform.position.y, -11);
+		food.transform.position = new Vector3(food.transform.position.x, food.transform.position.y, -1);
 		// 스케일 설정
 		food.transform.localScale = new Vector3(.1f, .1f, 1f);
 		// Food 컴포넌트 추가

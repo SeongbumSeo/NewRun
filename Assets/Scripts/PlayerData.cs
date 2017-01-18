@@ -40,6 +40,9 @@ public class PlayerData {
 	[Serializable]
 	public class VESSEL {
 		public ENEMY[] Enemy = new ENEMY[37];
+		public bool Stomach = false;
+		public bool Colon = false;
+		public bool Liver = false;
 	}
     public static VESSEL Vessel = new VESSEL();
 
@@ -105,6 +108,9 @@ public class PlayerData {
 				enemy.position = new Vector3(Vessel.Enemy[i].Position[0], Vessel.Enemy[i].Position[1], Vessel.Enemy[i].Position[2]);
 				enemy.localScale = new Vector3(Vessel.Enemy[i].Scale[0], Vessel.Enemy[i].Scale[1], Vessel.Enemy[i].Scale[2]);
 			}
+			GameObject.Find("Stomach").GetComponent<Entrance>().Cared = Vessel.Stomach;
+			GameObject.Find("Colon").GetComponent<Entrance>().Cared = Vessel.Colon;
+			GameObject.Find("Liver").GetComponent<Entrance>().Cared = Vessel.Liver;
 		}
 	}
 
