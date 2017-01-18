@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Main : MonoBehaviour {
     public void ClickPlayButton() {
-        SceneManager.LoadScene("Scenes/Vessel");
+        SceneManager.LoadScene("Scenes/Init");
     }
 
     public void ClickOptionButton() {

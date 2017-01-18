@@ -33,8 +33,10 @@ public class Enemy : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D collision) {
 		if(string.Compare(collision.gameObject.name, "Character") == 0) {
 			Health -= Time.deltaTime * GameObject.Find("Character").GetComponent<Character>().Power;
-			if(Health <= 0f)
+			if(Health <= 0f) {
 				transform.localScale = new Vector3();
+				GameObject.Find("Character").GetComponent<Character>().Power += 0.5f;
+			}
 		}
 	}
 }

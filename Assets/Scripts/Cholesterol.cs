@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Cholesterol : MonoBehaviour {
@@ -16,6 +17,11 @@ public class Cholesterol : MonoBehaviour {
         if(transform.localScale != new Vector3()) {
             float deltaSize = Mathf.Lerp(transform.localScale.x, 5f, Time.deltaTime / GameObject.Find("EventSystem").GetComponent<Vessel>().cholesterolScaleDelta);
             transform.localScale = new Vector3(deltaSize, deltaSize, 1f);
+			GetComponent<Enemy>().initialHealth += Time.deltaTime / 2f;
+			GetComponent<Enemy>().Health += Time.deltaTime / 2f;
+
+			if(deltaSize > 4.9f)
+				SceneManager.LoadScene("Scenes/GameOver");
         }
     }
 
@@ -30,7 +36,7 @@ public class Cholesterol : MonoBehaviour {
 			// 생성
 			transform.localScale = new Vector3(.25f, .25f, 1f);
         } else {
-            Invoke("Create", 5f);
+            Invoke("Create", 10f);
         }
     }
 }

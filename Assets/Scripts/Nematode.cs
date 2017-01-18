@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Nematode : MonoBehaviour {
@@ -33,7 +34,7 @@ public class Nematode : MonoBehaviour {
 			if(Destination.Length - 1 > moveIndex) {
 				moveIndex++;
 			} else {
-				Debug.Log("GameOver");
+				SceneManager.LoadScene("Scenes/GameOver");
 			}
 		} else {
 			float differX = Mathf.Abs(destination.x - current.x);
@@ -76,7 +77,7 @@ public class Nematode : MonoBehaviour {
 			// 생성
 			transform.localScale = new Vector3(1f, 1f, 1f);
         } else {
-            Invoke("Create", 30f);
+            Invoke("Create", 20f);
         }
     }
 
